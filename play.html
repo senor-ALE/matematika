@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./play.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1 class="a">პი (π) – რიცხვი, რომელიც უსასრულობამდე მიდის</h1>
+            <nav>
+                <a class="nav-btn" href="./index.html">HOME</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="ader"></div>
+
+    <title>Pi Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(25, 30px);
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        input {
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        button.play {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #restart {
+            background-color: blue;
+        }
+
+        span{
+            font-size: 22px; ;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="play">π Quiz</h1>
+    <p class="play">ითამაშე π რიცხვის ქვიზი!! </p>
+    <button class="play" onclick="startGame()">PLAY</button>
+    <div id="game" class="hidden play">
+        <p>ჩაწერე იმდენი ციფრი რამდენიც დაგამახსოვრდა</p>
+        <div class="grid play" id="pi-grid"></div>
+        <button id="restart" class="hidden play" onclick="restartGame()">PLAY AGAIN</button>
+    </div>
+    <script>
+        const piDigits = "1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+        let gameOver = false;
+        
+        function startGame() {
+            document.querySelector("button").classList.add("hidden");
+            document.getElementById("game").classList.remove("hidden");
+            generateGrid();
+        }
+
+        function generateGrid() {
+            const grid = document.getElementById("pi-grid");
+            grid.innerHTML = '<span>3.</span>';
+            gameOver = false;
+            
+            for (let i = 0; i < 150; i++) {
+                const input = document.createElement("input");
+                input.maxLength = 1;
+                input.dataset.index = i;
+                input.addEventListener("input", checkInput);
+                input.disabled = false;
+                grid.appendChild(input);
+            }
+            document.getElementById("restart").classList.add("hidden");
+        }
+
+        function checkInput(event) {
+            if (gameOver) return;
+            const index = event.target.dataset.index;
+            if (event.target.value === piDigits[index]) {
+                event.target.style.backgroundColor = "lightgreen";
+                if (event.target.nextElementSibling) {
+                    event.target.nextElementSibling.focus();
+                }
+            } else {
+                event.target.style.backgroundColor = "red";
+                gameOver = true;
+                endGame();
+            }
+        }
+
+        function endGame() {
+            const inputs = document.querySelectorAll(".grid input");
+            inputs.forEach(input => input.disabled = true);
+            document.getElementById("restart").classList.remove("hidden");
+        }
+
+        function restartGame() {
+            generateGrid();
+        }
+    </script>
+    
+    <footer>
+        <p>&copy; 2025 Pi Adventure - ყველა უფლება დაცულია</p>
+    </footer>
+</body>
+</html>
