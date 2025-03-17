@@ -118,6 +118,28 @@
         function restartGame() {
             generateGrid();
         }
+
+                function checkInput(event) {
+    if (gameOver) return;
+    const index = event.target.dataset.index;
+
+    if (event.target.value === piDigits[index]) {
+        event.target.style.backgroundColor = "lightgreen";
+
+        // If it's the last input, show the victory message
+        if (index == piDigits.length - 1) {
+            setTimeout(() => {
+                alert("შენ გაიმარჯვე!!");
+            }, 200);
+        } else if (event.target.nextElementSibling) {
+            event.target.nextElementSibling.focus();
+        }
+
+    } else {
+        event.target.style.backgroundColor = "red";
+        gameOver = true;
+        endGame();
+    }
     </script>
     
     <footer>
